@@ -1,0 +1,55 @@
+{
+  "name": "CricketBuddy - Cricket Scoring App",
+  "short_name": "CricketBuddy",
+  "description": "Score cricket matches offline, sync to cloud. Professional ball-by-ball scoring with live commentary and stats.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0B1D26",
+  "theme_color": "#FFB627",
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'%3E%3Crect fill='%230B1D26' width='540' height='720'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23FFB627' font-family='sans-serif' font-weight='bold'%3ECricketBuddy%3C/text%3E%3C/svg%3E",
+      "sizes": "540x720",
+      "type": "image/svg+xml",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 600'%3E%3Crect fill='%230B1D26' width='1024' height='600'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='72' fill='%23FFB627' font-family='sans-serif' font-weight='bold'%3ECricketBuddy%3C/text%3E%3C/svg%3E",
+      "sizes": "1024x600",
+      "type": "image/svg+xml",
+      "form_factor": "wide"
+    }
+  ],
+  "categories": ["sports"],
+  "shortcuts": [
+    {
+      "name": "New Match",
+      "short_name": "New Match",
+      "description": "Start scoring a new cricket match",
+      "url": "/?action=new-match",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect fill='%23FFB627' width='192' height='192' rx='40'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='96' fill='%230B1D26'%3E%2B%3C/text%3E%3C/svg%3E",
+          "sizes": "192x192",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Resume Match",
+      "short_name": "Resume",
+      "description": "Resume scoring an ongoing match",
+      "url": "/?action=resume-match",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect fill='%234FA3D1' width='192' height='192' rx='40'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='96' fill='%230B1D26'%3E▶%3C/text%3E%3C/svg%3E",
+          "sizes": "192x192",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false
+}
