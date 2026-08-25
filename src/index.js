@@ -57,6 +57,7 @@ if (document.readyState === 'loading') {
 // ============================================================
 // PWA Service Worker Registration for Offline Support
 // ============================================================
+/*
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js')
@@ -89,3 +90,4 @@ if ('serviceWorker' in navigator) {
 } else {
   console.warn('[PWA] Service Workers not supported in this browser');
 }
+*/
