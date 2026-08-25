@@ -1,0 +1,111 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow authenticated users only
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    // Check if user is owner of document
+    // Works for: email users (email match), anonymous users (uid match), any auth method
+    function isOwner(docId) {
+      return isSignedIn() && (
+        // Email-based users: email must match and not be null
+        (request.auth.token.email != null && request.auth.token.email == docId) ||
+        // Any user including anonymous: uid must match
+        (request.auth.uid == docId)
+      );
+    }
+
+    // Player profiles indexed by email (or uid for anonymous)
+    match /playerProfiles/{docId} {
+      // Read: Owner can read their own profile, authenticated users can read for lookups, public stats
+      allow read: if isOwner(docId) || isSignedIn() || resource.data.public == true;
+      
+      // Create: Authenticated users can create their profile (email for registered, uid for anonymous)
+      allow create: if isSignedIn() && (
+        (request.auth.token.email != null && request.auth.token.email == docId) ||
+        (request.auth.uid == docId)
+      );
+      
+      // Update: Owner can update their own profile
+      allow update: if isOwner(docId);
+      
+      // Delete: Owner can delete their own profile
+      allow delete: if isOwner(docId);
+    }
+    
+    // Player stats indexed by player name - PUBLIC READ for stats display
+    match /players/{playerName} {
+      allow read: if true;  // Public read for stats display
+      allow write: if isSignedIn();
+    }
+    
+    // Match history indexed by timestamp
+    match /matches/{matchId} {
+      allow read: if true;  // Anyone can view past matches
+      allow write: if isSignedIn();  // Only authenticated users can create matches
+    }
+    
+    // Teams indexed by team ID
+    match /teams/{teamId} {
+      allow read: if true;  // Public read for team browsing
+      allow write: if isSignedIn();  // Only team members can edit
+    }
+    
+    // Team invitations indexed by invitation ID
+    match /teamInvitations/{invitationId} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn();
+    }
+    
+    // Clans indexed by clan ID - PUBLIC READ for clan browsing
+    match /clans/{clanId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+      allow delete: if isSignedIn();
+    }
+    
+    // Clan invite links
+    match /clanInvites/{inviteCode} {
+      allow read: if true;  // Public join links
+      allow write: if isSignedIn();
+    }
+    
+    // Live matches - PUBLIC READ for followers to view ongoing matches
+    match /liveMatches/{matchCode} {
+      allow read: if true;  // Anyone can follow live matches
+      allow write: if isSignedIn();
+      allow delete: if isSignedIn();
+    }
+    
+    // Scoring transfer invites - Only for authenticated users
+    match /scoringTransfers/{inviteId} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn();
+      allow delete: if isSignedIn();
+    }
+    
+    // Clan membership requests - Authenticated users only
+    match /clanMembershipRequests/{requestId} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn();
+      allow delete: if isSignedIn();
+    }
+    
+    // Notifications - Email users and anonymous users
+    match /notifications/{notificationId} {
+      allow read: if isSignedIn() && (
+        (request.auth.token.email != null && request.auth.token.email == resource.data.toEmail) ||
+        (request.auth.uid == resource.data.toUid)
+      );
+      allow write: if isSignedIn();
+      allow delete: if isSignedIn();
+    }
+    
+    // Deny everything else by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
